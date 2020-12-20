@@ -6,6 +6,7 @@ import ExploreIcon from "@material-ui/icons/Explore";
 import LaunchesTimeline from "../Timeline/LaunchesTimeline";
 import DataTable from "../DataTable";
 import HomePage from "../HomePage/HomePage.jsx";
+import FilterBar from "../Toolbar/FilterBar";
 
 export const launchesURL = "https://api.spacexdata.com/v4/launches/";
 
@@ -31,7 +32,7 @@ export const appRoutes = [
     exact: true,
     main: (props) => (
       <>
-        {/* <FilterBar /> */}
+        <FilterBar {...props} />
         <DataTable {...props} />
       </>
     ),

@@ -33,8 +33,8 @@ function LaunchesTimeline({ data }) {
 
   return (
     <Timeline align="alternate">
-      {data.map((entry) => (
-        <TimelineItem>
+      {data.map((entry, index) => (
+        <TimelineItem key={index}>
           <TimelineOppositeContent>
             <Typography variant="body2" color="textSecondary">
               {dayjs(entry.date_local).format("DD-MM-YYYY")}

@@ -6,7 +6,10 @@ import TableCell from "@material-ui/core/TableCell";
 import Paper from "@material-ui/core/Paper";
 import { AutoSizer, Column, Table } from "react-virtualized";
 import InfoIcon from "@material-ui/icons/Info";
+import YouTubeIcon from "@material-ui/icons/YouTube";
+import CancelPresentationIcon from "@material-ui/icons/CancelPresentation";
 import dayjs from "dayjs";
+import { Typography } from "@material-ui/core";
 
 const styles = (theme) => ({
   flexContainer: {
@@ -36,6 +39,14 @@ const styles = (theme) => ({
   noClick: {
     cursor: "initial",
   },
+  imageContainer: {
+    width: "30px",
+    height: "30px",
+  },
+  image: {
+    maxWidth: "100%",
+    height: "auto",
+  },
 });
 
 class MuiVirtualizedTable extends React.PureComponent {
@@ -53,7 +64,7 @@ class MuiVirtualizedTable extends React.PureComponent {
   };
 
   cellRenderer = ({ cellData, columnIndex }) => {
-    const { columns, classes, rowHeight, onRowClick, data } = this.props;
+    const { columns, classes, rowHeight, onRowClick } = this.props;
     return (
       <TableCell
         component="div"
@@ -88,7 +99,7 @@ class MuiVirtualizedTable extends React.PureComponent {
         style={{ height: headerHeight }}
         align={columns[columnIndex].numeric || false ? "right" : "left"}
       >
-        <span>{label}</span>
+        <strong>{label}</strong>
       </TableCell>
     );
   };
@@ -118,23 +129,58 @@ class MuiVirtualizedTable extends React.PureComponent {
             {...tableProps}
             rowGetter={({ index }) => {
               const { name, date_local, success, links } = launches[index];
-              console.log({
-                name,
-                DATE: typeof dayjs(date_local).format("DD-MM-YYYY"),
-                success,
-                links,
-              });
+
               return {
-                name,
-                date: dayjs(date_local).format("DD-MM-YYYY"),
+                patch: (
+                  <div className={classes.imageContainer}>
+                    <img className={classes.image} src={links.patch.small} />
+                  </div>
+                ),
+                name: (
+                  <Typography
+                    noWrap
+                    variant="button"
+                    display="block"
+                    gutterBottom
+                  >
+                    {name}
+                  </Typography>
+                ),
+                date: (
+                  <Typography
+                    noWrap
+                    variant="button"
+                    display="block"
+                    gutterBottom
+                  >
+                    {dayjs(date_local).format("DD-MM-YYYY")}{" "}
+                  </Typography>
+                ),
                 success: success ? " Yes" : "No",
+                webcast: (
+                  <a
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                    href={links?.webcast}
+                  >
+                    {links?.webcast ? (
+                      <YouTubeIcon style={{ color: "red" }} />
+                    ) : (
+                      <CancelPresentationIcon />
+                    )}
+                  </a>
+                ),
                 wiki: (
                   <a
-                    style={{ textDecoration: "none", fill: "red" }}
+                    style={{ textDecoration: "none" }}
                     target="_blank"
                     href={links?.wikipedia}
                   >
-                    {links?.wikipedia ? <InfoIcon /> : "unavailable"}
+                    {links?.wikipedia ? (
+                      <InfoIcon style={{ color: "#333" }} />
+                    ) : (
+                      "No Wiki"
+                    )}
                   </a>
                 ),
               };
@@ -183,19 +229,24 @@ MuiVirtualizedTable.propTypes = {
 
 const VirtualizedTable = withStyles(styles)(MuiVirtualizedTable);
 
-function ReactVirtualizedTable({ data }) {
+function ReactVirtualizedTable({ filterData }) {
   return (
     <Paper style={{ height: 400, width: "100%" }}>
       <VirtualizedTable
-        launches={data}
+        launches={filterData}
         columns={[
           {
             width: 200,
+            label: "Patch",
+            dataKey: "patch",
+          },
+          {
+            width: 250,
             label: "Name",
             dataKey: "name",
           },
           {
-            width: 200,
+            width: 250,
             label: "Date",
             dataKey: "date",
             numeric: true,
@@ -204,6 +255,12 @@ function ReactVirtualizedTable({ data }) {
             width: 200,
             label: "Successful",
             dataKey: "success",
+            numeric: true,
+          },
+          {
+            width: 200,
+            label: "Webcast",
+            dataKey: "webcast",
             numeric: true,
           },
           {
