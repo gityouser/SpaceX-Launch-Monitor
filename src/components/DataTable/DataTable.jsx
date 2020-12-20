@@ -231,7 +231,7 @@ const VirtualizedTable = withStyles(styles)(MuiVirtualizedTable);
 
 function ReactVirtualizedTable({ filterData }) {
   return (
-    <Paper style={{ height: 400, width: "100%" }}>
+    <Paper style={{ height: 700, width: "100%" }}>
       <VirtualizedTable
         launches={filterData}
         columns={[
