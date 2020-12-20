@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -71,6 +71,7 @@ function FilterBar({ data, setFilterData }) {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
+            disabled
           >
             <FilterListIcon />
           </IconButton>
@@ -87,7 +88,11 @@ function FilterBar({ data, setFilterData }) {
               inputProps={{ "aria-label": "search" }}
               onChange={(e) =>
                 setFilterData(
-                  data.filter((launch) => launch.name.includes(e.target.value))
+                  data.filter((launch) =>
+                    launch.name
+                      .toLowerCase()
+                      .includes(e.target.value.toLowerCase())
+                  )
                 )
               }
             />
