@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 function FilterBar({ data, setFilterData }) {
   const classes = useStyles();
-  console.log({ data });
+
   return (
     <div className={classes.root}>
       <AppBar

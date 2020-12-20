@@ -14,7 +14,6 @@ function App() {
       try {
         const { data } = await Axios.get(launchesURL);
         setLaunches(data);
-        console.log("launches:  ", data);
       } catch (err) {
         console.log(err);
       }

@@ -13,5 +13,7 @@ Clone the repository and run:
 ### `npm run build` (yarn build)
 ### `npm run start` (yarn start)
 
+The server will probably default to [http://127.0.0.1:8080](http://127.0.0.1:8080), if the port is not already taken.
+
 To run the app in development mode, run:
 ### `npm run dev`
